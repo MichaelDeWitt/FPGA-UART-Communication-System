@@ -24,20 +24,15 @@ module uart_tx_tb;
     );
 
 
-    // ------------------------------------------------
     // 100 MHz clock
     // Period = 10 ns
-    // ------------------------------------------------
-
     always #5 clk = ~clk;
 
 
-    // ------------------------------------------------
     // Baud tick generator for simulation
     // 115200 baud
     // 100 MHz clock
     // 868 clock cycles per bit
-    // ------------------------------------------------
 
     reg [9:0] baud_counter;
 
@@ -60,45 +55,28 @@ module uart_tx_tb;
 
     end
 
-
-    // ------------------------------------------------
     // Record waveform
-    // ------------------------------------------------
-
     initial begin
         $dumpfile("uart_tx.vcd");
         $dumpvars(0, uart_tx_tb);
     end
 
-
-    // ------------------------------------------------
     // Test sequence
-    // ------------------------------------------------
-
     initial begin
 
-        // Initial values
         clk      = 1'b0;
         reset    = 1'b1;
         tx_start = 1'b0;
         data     = 8'h00;
 
-        // Hold reset for 20 ns
         #20;
-
-        // Release reset
         reset = 1'b0;
 
-        // Send ASCII 'A'
         data = 8'h41;
         tx_start = 1'b1;
-
-        // Keep tx_start high for one clock cycle
         #10;
 
         tx_start = 1'b0;
-
-        // Wait long enough for the entire UART frame
         #100000;
 
         $finish;

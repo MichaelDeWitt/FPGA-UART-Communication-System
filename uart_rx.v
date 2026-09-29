@@ -7,18 +7,11 @@ module uart_rx (
     output reg        rx_done
 );
 
-    // ------------------------------------------------
     // UART timing
-    // ------------------------------------------------
-
     localparam HALF_BIT = 10'd433;
     localparam FULL_BIT = 10'd867;
 
-
-    // ------------------------------------------------
     // States
-    // ------------------------------------------------
-
     localparam IDLE  = 2'd0;
     localparam START = 2'd1;
     localparam DATA  = 2'd2;
@@ -34,10 +27,7 @@ module uart_rx (
     reg [7:0] data_reg;
 
 
-    // ------------------------------------------------
     // Main RX logic
-    // ------------------------------------------------
-
     always @(posedge clk) begin
 
         if (reset) begin
@@ -60,10 +50,6 @@ module uart_rx (
 
             case (state)
 
-                // ------------------------------------
-                // IDLE
-                // ------------------------------------
-
                 IDLE: begin
 
                     baud_counter <= 10'd0;
@@ -75,11 +61,6 @@ module uart_rx (
                     end
 
                 end
-
-
-                // ------------------------------------
-                // START
-                // ------------------------------------
 
                 START: begin
 
@@ -104,11 +85,6 @@ module uart_rx (
                     end
 
                 end
-
-
-                // ------------------------------------
-                // DATA
-                // ------------------------------------
 
                 DATA: begin
 
@@ -140,11 +116,6 @@ module uart_rx (
 
                 end
 
-
-                // ------------------------------------
-                // STOP
-                // ------------------------------------
-
                 STOP: begin
 
                     if (baud_counter == FULL_BIT) begin
@@ -168,11 +139,6 @@ module uart_rx (
                     end
 
                 end
-
-
-                // ------------------------------------
-                // Default
-                // ------------------------------------
 
                 default: begin
                     state <= IDLE;

@@ -13,16 +13,13 @@ module baud_counter_tb;
         .baud_tick(baud_tick)
     );
 
-    // 100 MHz clock
     always #5 clk = ~clk;
 
-    // Waveform recording
     initial begin
         $dumpfile("baud_counter.vcd");
         $dumpvars(0, baud_counter_tb);
     end
 
-    // Reset and simulation control
     initial begin
         clk = 0;
         reset = 1;
